@@ -12,6 +12,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+goal_data = {
+    "name": "Overall Goal",
+    "children": [
+        {"name": "Subgoal 1", "children": [{"name": "Task 1"}, {"name": "Task 2"}]},
+        {"name": "Subgoal 2", "children": [{"name": "Task 3"}]},
+    ],
+}
+
 @app.get("/")
 def root():
-    return {"Hello World"}
+    return goal_data;
