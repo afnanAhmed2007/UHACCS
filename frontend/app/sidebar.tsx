@@ -9,9 +9,38 @@ type Message = {
   timestamp: Date;
 };
 
+async function chatSendMessage(message: string): Promise<{ response: string }> {
+    const res = await fetch("http://localhost:8000/api/chat", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ message }),
+    });
+    if (!res.ok) throw new Error("Failed to send message");
+    return res.json();
+}
+
+async function logSendMessage(message: string): Promise<{ response: string }> {
+    const res = await fetch("http://localhost:8000/api/logs", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ message }),
+    });
+    if (!res.ok) throw new Error("Failed to send message");
+    return res.json();
+}
+
 type TabId = "chat" | "logs";
 
-export default function Sidebar() {
+type SidebarProps = {
+  onLogsUpdated?: () => void;
+  onHide?: () => void;
+};
+
+export default function Sidebar({ onLogsUpdated, onHide }: SidebarProps = {}) {
   const [activeTab, setActiveTab] = useState<TabId>("chat");
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
@@ -32,60 +61,102 @@ export default function Sidebar() {
     scrollToBottom(logsEndRef);
   }, [logMessages]);
 
-  const handleChatSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!input.trim()) return;
+  const [sending, setSending] = useState(false);
+  const [sendingLog, setSendingLog] = useState(false);
 
+  const handleChatSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!input.trim() || sending) return;
+
+    const text = input.trim();
     const userMessage: Message = {
       id: crypto.randomUUID(),
       role: "user",
-      content: input.trim(),
+      content: text,
       timestamp: new Date(),
     };
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
+    setSending(true);
 
-    // Placeholder reply (replace with real chat API later)
-    setTimeout(() => {
+    try {
+      const data = await chatSendMessage(text);
       const assistantMessage: Message = {
         id: crypto.randomUUID(),
         role: "assistant",
-        content: "Thanks for your message. Connect this to your chat API to get real responses.",
+        content: data.response ?? "No response.",
         timestamp: new Date(),
       };
       setMessages((prev) => [...prev, assistantMessage]);
-    }, 400);
+    } catch {
+      const assistantMessage: Message = {
+        id: crypto.randomUUID(),
+        role: "assistant",
+        content: "Could not reach the server. Please try again.",
+        timestamp: new Date(),
+      };
+      setMessages((prev) => [...prev, assistantMessage]);
+    } finally {
+      setSending(false);
+    }
   };
 
-  const handleLogSubmit = (e: React.FormEvent) => {
+  const handleLogSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!logInput.trim()) return;
+    if (!logInput.trim() || sendingLog) return;
 
+    const text = logInput.trim();
     const userMessage: Message = {
       id: crypto.randomUUID(),
       role: "user",
-      content: logInput.trim(),
+      content: text,
       timestamp: new Date(),
     };
     setLogMessages((prev) => [...prev, userMessage]);
     setLogInput("");
+    setSendingLog(true);
 
-    // Placeholder reply for logs (replace with your log API)
-    setTimeout(() => {
+    try {
+      const data = await logSendMessage(text);
+      const responseText = data.response ?? "Log received.";
       const assistantMessage: Message = {
         id: crypto.randomUUID(),
         role: "assistant",
-        content: "Log entry saved.",
+        content: responseText,
         timestamp: new Date(),
       };
       setLogMessages((prev) => [...prev, assistantMessage]);
-    }, 400);
+      const normalized = responseText.toLowerCase().trim();
+      if (normalized === "logs updated" || normalized === "logs updated.") {
+        onLogsUpdated?.();
+      }
+    } catch {
+      const assistantMessage: Message = {
+        id: crypto.randomUUID(),
+        role: "assistant",
+        content: "Could not reach the server. Please try again.",
+        timestamp: new Date(),
+      };
+      setLogMessages((prev) => [...prev, assistantMessage]);
+    } finally {
+      setSendingLog(false);
+    }
   };
 
   return (
     <aside className="flex h-full w-[380px] shrink-0 flex-col border-l border-zinc-700 bg-zinc-900">
-      {/* Header: round pill toggle — one side light (active), one dark */}
+      {/* Header: hide button + round pill toggle */}
       <header className="border-b border-zinc-700 px-4 py-4">
+        <div className="mb-3 flex justify-end">
+          <button
+            type="button"
+            onClick={onHide}
+            className="rounded-md px-2 py-1.5 text-xs font-medium text-zinc-400 hover:bg-zinc-800 hover:text-zinc-200"
+            aria-label="Hide chat"
+          >
+            ← Hide
+          </button>
+        </div>
         <div className="flex justify-center">
           <div
             className="flex w-full max-w-[200px] rounded-full bg-black p-1"
@@ -128,8 +199,10 @@ export default function Sidebar() {
           <div className="flex-1 overflow-y-auto p-4">
             {messages.length === 0 ? (
               <div className="flex h-full items-center justify-center text-center text-sm text-zinc-500">
-                <p>No messages yet.</p>
-                <p className="mt-1">Send a message to start the conversation.</p>
+                <div className="flex flex-col items-center gap-2">
+                  <p>No messages yet.</p>
+                  <p>Send a message to start the conversation.</p>
+                </div>
               </div>
             ) : (
               <div className="space-y-4">
@@ -166,9 +239,9 @@ export default function Sidebar() {
               <button
                 type="submit"
                 className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-zinc-900 disabled:opacity-50"
-                disabled={!input.trim()}
+                disabled={!input.trim() || sending}
               >
-                Send
+                {sending ? "Sending..." : "Send"}
               </button>
             </div>
           </form>
@@ -181,8 +254,10 @@ export default function Sidebar() {
           <div className="flex-1 overflow-y-auto p-4">
             {logMessages.length === 0 ? (
               <div className="flex h-full items-center justify-center text-center text-sm text-zinc-500">
-                <p>No logs yet.</p>
-                <p className="mt-1">Add a log entry to get started.</p>
+                <div className="flex flex-col items-center gap-2">
+                  <p>No logs yet.</p>
+                  <p>Add a log entry to get started.</p>
+                </div>
               </div>
             ) : (
               <div className="space-y-4">
@@ -219,9 +294,9 @@ export default function Sidebar() {
               <button
                 type="submit"
                 className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-zinc-900 disabled:opacity-50"
-                disabled={!logInput.trim()}
+                disabled={!logInput.trim() || sendingLog}
               >
-                Send
+                {sendingLog ? "Sending..." : "Send"}
               </button>
             </div>
           </form>

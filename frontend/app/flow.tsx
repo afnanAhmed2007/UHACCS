@@ -1,101 +1,54 @@
 "use client";
 
-import { ReactFlow, Background, Controls, MiniMap } from '@xyflow/react';
-import '@xyflow/react/dist/style.css';
-import mapTreeToFlow, { type GoalNode } from './TreeToFlow';
+import { useState, useEffect } from "react";
+import { ReactFlow, Background, Controls, BackgroundVariant } from "@xyflow/react";
+import "@xyflow/react/dist/style.css";
+import mapTreeToFlow, { type GoalNode } from "./TreeToFlow";
 
-const data = {
-        "name": "Eve",
-        "children": [
-          {
-            "name": "Cain",
-            "children": [
-              {
-                "name": "Enoch",
-                "children": [
-                  {"name": "Irad"},
-                  {"name": "Mehujael"}
-                ]
-              }
-            ]
-          },
-          {
-            "name": "Seth",
-            "children": [
-              {
-                "name": "Enos",
-                "children": [
-                  {"name": "Kenan"},
-                  {"name": "Mahalalel"}
-                ]
-              },
-              {"name": "Noam"}
-            ]
-          },
-          {"name": "Abel"},
-          {
-            "name": "Awan",
-            "children": [
-              {
-                "name": "Enoch",
-                "children": [
-                  {"name": "Irad"},
-                  {
-                    "name": "Mehujael",
-                    "children": [
-                      {"name": "Methushael"},
-                      {"name": "Lamech"}
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-        {"name": "Azura"}
-    ]
+async function getGoals(): Promise<GoalNode> {
+  const response = await fetch("http://127.0.0.1:8000/api/goals");
+  return response.json();
 }
 
-const dataTwo: GoalNode = {
-    goal: "Lose Weight",
-    status: "unlocked",
-    subgoals: [
-      {
-        goal: "Diet",
-        status: "complete",
-        subgoals: [
-          { goal: "Track Calories", status: "complete" },
-          { goal: "Eat More Protein", status: "complete" },
-          { goal: "Reduce Sugar", status: "unlocked" },
-        ],
-      },
-      {
-        goal: "Cardio",
-        status: "unlocked",
-        subgoals: [
-          { goal: "Run 3x/Week", status: "unlocked" },
-          { goal: "Cycling 2x/Week", status: "locked" },
-        ],
-      },
-      {
-        goal: "Weight-Lifting",
-        status: "locked",
-        subgoals: [
-          { goal: "Upper Body", status: "locked" },
-          { goal: "Lower Body", status: "locked" },
-          { goal: "Core", status: "locked" },
-        ],
-      },
-    ],
-  };
-  
-      
+type UpdateMode = "base" | "update" | "neither";
 
-export default function App() {
-    const { nodes, edges } = mapTreeToFlow(dataTwo);
-    return (
-      <div style={{ height: '100%', width: '100%', display: "flex", justifyContent: "center", alignItems: "center" }}>
-        <ReactFlow colorMode="dark" nodes={nodes} edges={edges} fitView> <Controls> </Controls><Background/>
-        </ReactFlow>
-      </div>
-    );
+type FlowProps = {
+  update: UpdateMode;
+  onReady?: () => void;
+};
+
+export default function App({ update, onReady }: FlowProps) {
+  const [goals, setGoals] = useState<GoalNode | null>(null);
+
+  useEffect(() => {
+    if (update === "base" || update === "update") {
+      getGoals()
+        .then((data) => {
+          setGoals(data);
+          if (update === "base") {
+            onReady?.();
+          } else {
+            requestAnimationFrame(() => {
+              requestAnimationFrame(() => onReady?.());
+            });
+          }
+        })
+        .catch(() => onReady?.());
+    }
+  }, [update, onReady]);
+
+  if (!goals) {
+    return <div style={{ height: "100%", width: "100%", display: "flex", alignItems: "center", justifyContent: "center", color: "#9ca3af" }}>Loading goals...</div>;
   }
+
+  const { nodes, edges } = mapTreeToFlow(goals);
+
+  return (
+    <div style={{ height: "100%", width: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+      <ReactFlow colorMode="dark" nodes={nodes} edges={edges} fitView>
+        <Controls />
+        <Background variant={BackgroundVariant.Dots} />
+      </ReactFlow>
+    </div>
+  );
+}

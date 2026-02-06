@@ -1,5 +1,5 @@
 "use client";
-import { Node, Edge } from '@xyflow/react';
+import { Node, Edge, MarkerType} from '@xyflow/react';
 
 export type GoalStatus = 'locked' | 'unlocked' | 'complete';
 
@@ -20,16 +20,22 @@ type LayoutItem = {
 };
 
 const STATUS_COLORS: Record<GoalStatus, string> = {
-  locked: '#6b7280',
-  unlocked: '#2563eb',
-  complete: '#16a34a',
+  locked: '#9ca3af',
+  unlocked: '#3b82f6',
+  complete: '#22c55e',
+};
+
+const STATUS_TEXT_COLORS: Record<GoalStatus, string> = {
+  locked: '#e4e4e7',
+  unlocked: '#ffffff',
+  complete: '#ffffff',
 };
 
 export default function mapTreeToFlow(
   tree: GoalNode,
   options = {
     xSpacing: 300,
-    ySpacing: 220,
+    ySpacing: 400,
   }
 ): { nodes: Node[]; edges: Edge[] } {
   const layoutItems: LayoutItem[] = [];
@@ -89,8 +95,8 @@ export default function mapTreeToFlow(
     type: item.parentId === undefined ? 'input' : undefined,
     style: {
       backgroundColor: STATUS_COLORS[item.status],
-      color: '#ffffff',
-      border: '4px solid #1f2937',
+      color: STATUS_TEXT_COLORS[item.status],
+      border: '2px solid #374151',
       width: 150,
       height: 150,
       borderRadius: '50%',
@@ -99,6 +105,7 @@ export default function mapTreeToFlow(
       alignItems: 'center',
       fontSize: 13,
       fontWeight: 600,
+      fontFamily: 'sans-serif',
     },
   }));
 
@@ -108,8 +115,14 @@ export default function mapTreeToFlow(
       id: `${item.parentId}-${item.id}`,
       source: item.parentId,
       target: item.id,
-      type: 'bezier',
-      style: { stroke: '#ffffff', strokeWidth: 1 },
+      type: 'simplebezier',
+      style: {  strokeWidth: 4, stroke: '#FF0072'},
+      markerEnd: {
+        type: MarkerType.ArrowClosed,
+        width: 20,
+        height: 20,
+        color: '#FF0072',
+      },
     }));
 
   return { nodes, edges };
