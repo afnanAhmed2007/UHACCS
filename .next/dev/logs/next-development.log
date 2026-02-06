@@ -1,0 +1,55 @@
+[00:00:00.488] Server  LOG     ✓ Ready in 369ms
+[00:00:01.600] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:01.672] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:04.357] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:05.537] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:06.226] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:10.775] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:01:42.159] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:02:25.529] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:02:25.636] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:04:05.832] Server  LOG     ✓ Compiled in 53ms
+[00:04:05.902] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:04:05.994] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:04:53.710] Server  LOG     ✓ Compiled in 49ms
+[00:04:53.770] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:04:53.897] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:09:27.331] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jose/Desktop/uhacksprep/app'
+[00:09:27.332] Server  ERROR   ⨯ "unhandledRejection:" Error: ENOENT: no such file or directory, scandir '/Users/jose/Desktop/uhacksprep/app'
+[00:09:27.333] Server  ERROR   ⨯ "unhandledRejection: " Error: ENOENT: no such file or directory, scandir '/Users/jose/Desktop/uhacksprep/app'
+[00:09:27.369] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jose/Desktop/uhacksprep/app'
+[00:09:27.370] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jose/Desktop/uhacksprep/app'
+[00:09:27.401] Server  LOG     ✓ Compiled in 72ms
+[00:09:27.708] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jose/Desktop/uhacksprep/app'
+[00:09:27.713] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jose/Desktop/uhacksprep/app'
+[00:09:27.912] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jose/Desktop/uhacksprep/app'
+[00:09:27.946] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jose/Desktop/uhacksprep/app'
+[00:09:27.958] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jose/Desktop/uhacksprep/app'
+[00:09:27.960] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jose/Desktop/uhacksprep/app'
+[00:09:28.007] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jose/Desktop/uhacksprep/app'
+[00:09:28.009] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jose/Desktop/uhacksprep/app'
+[00:09:28.024] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jose/Desktop/uhacksprep/app'
+[00:09:28.026] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jose/Desktop/uhacksprep/app'
+[00:09:28.045] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jose/Desktop/uhacksprep/app'
+[00:09:28.046] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jose/Desktop/uhacksprep/app'
+[00:09:28.073] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jose/Desktop/uhacksprep/app'
+[00:09:28.075] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jose/Desktop/uhacksprep/app'
+[00:09:28.080] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jose/Desktop/uhacksprep/app'
+[00:09:28.083] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jose/Desktop/uhacksprep/app'
+[00:09:28.089] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jose/Desktop/uhacksprep/app'
+[00:09:28.090] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jose/Desktop/uhacksprep/app'
+[00:09:28.121] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jose/Desktop/uhacksprep/app'
+[00:09:28.122] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jose/Desktop/uhacksprep/app'
+[00:09:28.135] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jose/Desktop/uhacksprep/app'
+[00:09:28.137] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jose/Desktop/uhacksprep/app'
+[00:09:28.164] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jose/Desktop/uhacksprep/app'
+[00:09:28.165] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jose/Desktop/uhacksprep/app'
+[00:09:28.204] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jose/Desktop/uhacksprep/app'
+[00:09:28.204] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jose/Desktop/uhacksprep/app'
+[00:09:40.457] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jose/Desktop/uhacksprep/app'
+[00:09:40.458] Server  ERROR   ⨯ "unhandledRejection:" Error: ENOENT: no such file or directory, scandir '/Users/jose/Desktop/uhacksprep/app'
+[00:09:40.460] Server  ERROR   ⨯ "unhandledRejection: " Error: ENOENT: no such file or directory, scandir '/Users/jose/Desktop/uhacksprep/app'
+[00:15:51.723] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jose/Desktop/uhacksprep/app'
+[00:15:51.726] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jose/Desktop/uhacksprep/app'
+[00:15:53.784] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jose/Desktop/uhacksprep/app'
+[00:15:53.792] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jose/Desktop/uhacksprep/app'
