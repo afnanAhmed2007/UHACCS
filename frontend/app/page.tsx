@@ -1,45 +1,35 @@
 "use client";
 
-import { useState, useCallback } from "react";
-import Flow from "./flow";
-import Sidebar from "./sidebar";
-
-export type UpdateMode = "base" | "update" | "neither";
+import { useState, useEffect } from "react";
+import { getUser, setUser, type User } from "@/lib/storage";
+import UserForm from "./user-form";
+import CommunitiesView from "./communities";
 
 export default function Home() {
-  const [update, setUpdate] = useState<UpdateMode>("base");
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [user, setUserState] = useState<User | null>(null);
+  const [mounted, setMounted] = useState(false);
 
-  const handleFlowReady = useCallback(() => {
-    setUpdate("neither");
+  useEffect(() => {
+    setMounted(true);
+    setUserState(getUser());
   }, []);
 
-  const handleLogsUpdated = useCallback(() => {
-    setUpdate("update");
-  }, []);
+  function handleUserCreated(u: User) {
+    setUser(u);
+    setUserState(u);
+  }
 
-  return (
-    <div className="flex h-screen w-full font-sans relative">
-      <main className="min-w-0 flex-1">
-        <Flow update={update} onReady={handleFlowReady} />
-      </main>
+  if (!mounted) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-zinc-950 text-zinc-400">
+        Loading…
+      </div>
+    );
+  }
 
-      {sidebarOpen ? (
-        <Sidebar
-          onLogsUpdated={handleLogsUpdated}
-          onHide={() => setSidebarOpen(false)}
-        />
-      ) : (
-        <button
-          type="button"
-          onClick={() => setSidebarOpen(true)}
-          className="fixed right-2 top-3 z-10 rounded-md border border-zinc-600 bg-zinc-800 px-2 py-1.5 text-xs font-medium text-zinc-300 shadow hover:bg-zinc-700 hover:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          aria-label="Show chat"
-        >
-          Chat →
-        </button>
-      )}
-    </div>
-  );
+  if (!user) {
+    return <UserForm onCreated={handleUserCreated} />;
+  }
+
+  return <CommunitiesView user={user} />;
 }
-

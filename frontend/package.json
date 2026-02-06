@@ -9,19 +9,12 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@chakra-ui/react": "^3.32.0",
-    "@emotion/react": "^11.14.0",
-    "@xyflow/react": "^12.10.0",
-    "d3": "^7.9.0",
     "next": "16.1.6",
     "react": "19.2.3",
-    "react-d3-tree": "^3.6.6",
-    "react-dom": "19.2.3",
-    "reaflow": "^5.4.1"
+    "react-dom": "19.2.3"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
-    "@types/d3": "^7.4.3",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
