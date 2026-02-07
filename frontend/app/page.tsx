@@ -22,8 +22,9 @@ export default function Home() {
 
   if (!mounted) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-zinc-950 text-zinc-400">
-        Loading…
+      <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-gradient-to-br from-[#f0fdf4] via-[#dcfce7] to-[#bbf7d0]">
+        <div className="h-10 w-10 animate-spin rounded-full border-4 border-[#bbf7d0] border-t-[#15803d]" />
+        <p className="text-sm font-semibold text-[#166534]">Loading R U Kind…</p>
       </div>
     );
   }

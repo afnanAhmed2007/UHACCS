@@ -67,50 +67,54 @@ export default function CommunitiesView({ user }: { user: User }) {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-zinc-950 text-zinc-400">
-        Loading…
+      <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-gradient-to-br from-[#f0fdf4] via-[#dcfce7] to-[#bbf7d0]">
+        <div className="h-10 w-10 animate-spin rounded-full border-4 border-[#bbf7d0] border-t-[#15803d]" />
+        <p className="text-sm font-semibold text-[#166534]">Loading your communities…</p>
       </div>
     );
   }
 
   if (selectedCommunity) {
     const tabs = [
-      { id: "individual" as const, label: "Profile" },
-      { id: "leadership" as const, label: "Leaderboard" },
-      { id: "videos" as const, label: "Videos" },
+      { id: "individual" as const, label: "Profile", icon: "👤" },
+      { id: "leadership" as const, label: "Leaderboard", icon: "🏆" },
+      { id: "videos" as const, label: "Videos", icon: "🎬" },
     ];
     return (
-      <div className="fixed inset-0 z-20 flex min-h-screen flex-col bg-black">
-        <header className="flex shrink-0 flex-col gap-4 border-b border-zinc-800 px-4 py-3">
-          <button
-            type="button"
-            onClick={() => setSelectedCommunity(null)}
-            className="self-start text-sm text-zinc-400 hover:text-zinc-200"
-          >
-            ← Back to communities
-          </button>
-          <div className="flex justify-center">
-            <div
-              className="flex w-full max-w-md rounded-lg bg-blue-600 p-1"
-              role="tablist"
+      <div className="fixed inset-0 z-20 flex min-h-screen flex-col bg-gradient-to-br from-[#f0fdf4] via-[#dcfce7] to-[#bbf7d0]">
+        <header className="flex shrink-0 flex-col gap-4 border-b-2 border-[#bbf7d0] bg-white/90 px-4 py-3 shadow-sm backdrop-blur-sm">
+          <div className="flex items-center justify-between">
+            <button
+              type="button"
+              onClick={() => setSelectedCommunity(null)}
+              className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-bold text-[#166534] transition hover:bg-[#dcfce7]"
             >
-              {tabs.map(({ id, label }) => (
-                <button
-                  key={id}
-                  type="button"
-                  role="tab"
-                  aria-selected={communityTab === id}
-                  onClick={() => setCommunityTab(id)}
-                  className={`flex-1 rounded-md py-2 text-center text-sm font-medium transition-colors ${
-                    communityTab === id
-                      ? "bg-white text-blue-600"
-                      : "bg-transparent text-white hover:text-white/90"
-                  }`}
+              ← Back
+            </button>
+            <span className="text-sm font-bold text-[#14532d]">{selectedCommunity.name}</span>
+            <div className="w-16" />
+          </div>
+          <div
+            className="flex w-full gap-1 rounded-2xl bg-[#f0fdf4]/80 p-1.5"
+            role="tablist"
+          >
+            {tabs.map(({ id, label, icon }) => (
+              <button
+                key={id}
+                type="button"
+                role="tab"
+                aria-selected={communityTab === id}
+                onClick={() => setCommunityTab(id)}
+                className={`flex flex-1 items-center justify-center gap-1.5 rounded-xl py-3 text-center text-sm font-bold transition-all ${
+                  communityTab === id
+                    ? "bg-[#15803d] text-white shadow-md"
+                    : "text-[#166534] hover:bg-[#dcfce7]"
+                }`}
               >
+                <span aria-hidden>{icon}</span>
                 {label}
               </button>
             ))}
-            </div>
           </div>
         </header>
         <main className="min-h-0 flex-1 overflow-auto px-4 py-6">
@@ -129,18 +133,21 @@ export default function CommunitiesView({ user }: { user: User }) {
   }
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-100">
-      <header className="border-b border-zinc-800 bg-zinc-900/80 px-4 py-3">
+    <div className="min-h-screen bg-gradient-to-br from-[#f0fdf4] via-[#dcfce7] to-[#bbf7d0] text-[#14532d]">
+      <header className="border-b-2 border-[#bbf7d0] bg-white/90 px-4 py-4 shadow-sm backdrop-blur-sm">
         <div className="mx-auto flex max-w-3xl items-center justify-between">
-          <h1 className="text-lg font-semibold">Community threads</h1>
+          <div className="flex items-center gap-2">
+            <span className="text-xl" aria-hidden>🌱</span>
+            <h1 className="text-xl font-extrabold text-[#14532d]">R U Kind</h1>
+          </div>
           <div className="flex items-center gap-3">
-            <span className="text-sm text-zinc-400">
+            <span className="rounded-full bg-[#dcfce7] px-3 py-1.5 text-sm font-bold text-[#166534]">
               {user.name} · {user.zip}
             </span>
             <button
               type="button"
               onClick={handleSignOut}
-              className="text-sm text-zinc-500 hover:text-zinc-300"
+              className="rounded-xl px-3 py-1.5 text-sm font-bold text-[#166534] hover:bg-[#dcfce7]"
             >
               Sign out
             </button>
@@ -149,40 +156,71 @@ export default function CommunitiesView({ user }: { user: User }) {
       </header>
 
       <main className="mx-auto max-w-3xl px-4 py-8">
+        <section className="mb-8 text-center">
+          <h2 className="text-2xl font-extrabold text-[#14532d]">
+            Your communities
+          </h2>
+          <p className="mt-2 text-[#166534]">
+            Together we grow — join or create a space to share kind deeds and care for our planet.
+          </p>
+          <p className="mt-1 text-sm font-medium text-[#166534]/80">
+            Inclusive · Local · Green
+          </p>
+        </section>
+
         {communities.length === 0 ? (
-          <div className="flex flex-col items-center gap-6 rounded-lg border border-zinc-700 bg-zinc-900/50 p-8 text-center">
-            <p className="text-zinc-400">No communities yet.</p>
+          <div className="flex flex-col items-center gap-6 rounded-3xl border-2 border-dashed border-[#bbf7d0] bg-white/60 p-10 text-center shadow-inner">
+            <div className="flex h-20 w-20 items-center justify-center rounded-full bg-[#dcfce7] text-4xl">
+              🌍
+            </div>
+            <div>
+              <h3 className="text-lg font-bold text-[#14532d]">No community yet</h3>
+              <p className="mt-2 text-[#166534]">
+                Every community starts with one person. Create a space for your neighborhood to share good deeds and support the environment.
+              </p>
+            </div>
             <button
               type="button"
               onClick={() => setShowAdd(true)}
-              className="rounded-md bg-blue-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-zinc-900"
+              className="rounded-xl bg-[#15803d] px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-[#15803d]/25 hover:bg-[#166534] focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:ring-offset-2"
             >
-              Add a community
+              Create your first community
             </button>
           </div>
         ) : (
-          <div className="space-y-4">
-            <div className="flex justify-end">
+          <div className="space-y-6">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <p className="text-sm font-bold text-[#166534]">
+                {communities.length} {communities.length === 1 ? "community" : "communities"}
+              </p>
               <button
                 type="button"
                 onClick={() => setShowAdd(true)}
-                className="rounded-md border border-zinc-600 bg-zinc-800 px-4 py-2 text-sm font-medium text-zinc-200 hover:bg-zinc-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="rounded-xl border-2 border-[#15803d] bg-white px-4 py-2.5 text-sm font-bold text-[#15803d] hover:bg-[#15803d] hover:text-white focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:ring-offset-2"
               >
-                Add a community
+                + Add community
               </button>
             </div>
-            <ul className="space-y-2">
+            <ul className="grid gap-4 sm:grid-cols-2">
               {communities.map((c) => (
                 <li key={c.id}>
                   <button
                     type="button"
                     onClick={() => setSelectedCommunity(c)}
-                    className="flex w-full items-center justify-between rounded-lg border border-zinc-700 bg-zinc-900/50 px-4 py-3 text-left transition-colors hover:bg-zinc-800/50"
+                    className="flex w-full flex-col items-start gap-2 rounded-2xl border-2 border-[#bbf7d0] bg-white p-5 text-left shadow-md transition hover:border-[#22c55e] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:ring-offset-2"
                   >
-                    <div>
-                      <span className="font-medium">{c.name}</span>
-                      <span className="ml-2 text-sm text-zinc-500">{c.zip}</span>
+                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#dcfce7] text-2xl">
+                      🌱
                     </div>
+                    <div>
+                      <span className="block text-lg font-bold text-[#14532d]">{c.name}</span>
+                      <span className="mt-1 inline-block rounded-lg bg-[#f0fdf4] px-2 py-0.5 text-sm font-semibold text-[#166534]">
+                        {c.zip}
+                      </span>
+                    </div>
+                    <span className="text-sm font-medium text-[#166534]/80">
+                      Tap to open
+                    </span>
                   </button>
                 </li>
               ))}
@@ -193,20 +231,26 @@ export default function CommunitiesView({ user }: { user: User }) {
 
       {showAdd && (
         <div
-          className="fixed inset-0 z-10 flex items-center justify-center bg-black/60 p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-[#14532d]/30 p-4 backdrop-blur-sm"
           role="dialog"
           aria-modal="true"
           aria-labelledby="add-community-title"
         >
-          <div className="w-full max-w-sm rounded-lg border border-zinc-700 bg-zinc-900 p-6 shadow-xl">
-            <h2 id="add-community-title" className="mb-4 text-lg font-semibold">
-              Add a community
-            </h2>
+          <div className="w-full max-w-sm rounded-3xl border-2 border-[#bbf7d0] bg-white p-6 shadow-2xl">
+            <div className="mb-4 flex items-center gap-2">
+              <span className="text-2xl" aria-hidden>🌍</span>
+              <h2 id="add-community-title" className="text-xl font-extrabold text-[#14532d]">
+                Add a community
+              </h2>
+            </div>
+            <p className="mb-4 text-sm text-[#166534]">
+              Create a local space for neighbors to share kind deeds and support the environment.
+            </p>
             <form onSubmit={handleAddSubmit} className="flex flex-col gap-4">
               <div>
                 <label
                   htmlFor="community-name"
-                  className="mb-1 block text-sm font-medium text-zinc-300"
+                  className="mb-1.5 block text-sm font-bold text-[#166534]"
                 >
                   Community name
                 </label>
@@ -216,13 +260,13 @@ export default function CommunitiesView({ user }: { user: User }) {
                   value={addName}
                   onChange={(e) => setAddName(e.target.value)}
                   placeholder="e.g. Downtown Houston"
-                  className="w-full rounded-md border border-zinc-600 bg-zinc-800 px-3 py-2 text-zinc-100 placeholder-zinc-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  className="w-full rounded-xl border-2 border-[#bbf7d0] bg-[#f0fdf4]/50 px-4 py-3 text-[#14532d] placeholder-[#166534]/50 focus:border-[#22c55e] focus:outline-none focus:ring-2 focus:ring-[#22c55e]/30"
                 />
               </div>
               <div>
                 <label
                   htmlFor="community-zip"
-                  className="mb-1 block text-sm font-medium text-zinc-300"
+                  className="mb-1.5 block text-sm font-bold text-[#166534]"
                 >
                   Zip code
                 </label>
@@ -235,31 +279,38 @@ export default function CommunitiesView({ user }: { user: User }) {
                     setAddZip(e.target.value.replace(/\D/g, "").slice(0, 10))
                   }
                   placeholder="e.g. 77004"
-                  className="w-full rounded-md border border-zinc-600 bg-zinc-800 px-3 py-2 text-zinc-100 placeholder-zinc-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  className="w-full rounded-xl border-2 border-[#bbf7d0] bg-[#f0fdf4]/50 px-4 py-3 text-[#14532d] placeholder-[#166534]/50 focus:border-[#22c55e] focus:outline-none focus:ring-2 focus:ring-[#22c55e]/30"
                 />
               </div>
               {addError && (
-                <p className="text-sm text-red-400" role="alert">
+                <div className="rounded-xl bg-red-50 px-4 py-3 text-sm font-medium text-red-600 border border-red-100">
                   {addError}
-                </p>
+                </div>
               )}
-              <div className="flex gap-2">
+              <div className="flex gap-3">
                 <button
                   type="button"
                   onClick={() => {
                     setShowAdd(false);
                     setAddError("");
                   }}
-                  className="flex-1 rounded-md border border-zinc-600 bg-zinc-800 px-4 py-2 text-sm font-medium text-zinc-200 hover:bg-zinc-700"
+                  className="flex-1 rounded-xl border-2 border-[#bbf7d0] bg-white px-4 py-3 text-sm font-bold text-[#166534] hover:bg-[#dcfce7]"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={adding}
-                  className="flex-1 rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
+                  className="flex-1 rounded-xl bg-[#15803d] px-4 py-3 text-sm font-bold text-white shadow-lg shadow-[#15803d]/25 hover:bg-[#166534] disabled:opacity-60"
                 >
-                  {adding ? "…" : "Add"}
+                  {adding ? (
+                    <span className="flex items-center justify-center gap-2">
+                      <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+                      Adding…
+                    </span>
+                  ) : (
+                    "Create"
+                  )}
                 </button>
               </div>
             </form>

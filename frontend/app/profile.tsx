@@ -71,44 +71,54 @@ export default function Profile({ user }: { user: User }) {
   }
 
   return (
-    <div className="flex min-h-full w-full gap-0">
-      <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
-        <h2 className="mb-2 shrink-0 text-lg font-semibold text-zinc-100">Profile</h2>
-        <p className="mb-2 shrink-0 text-sm text-zinc-500">
-          Full name: <span className="text-zinc-100">{user.name || "—"}</span>
-        </p>
-        <h3 className="mb-2 shrink-0 text-base font-medium text-zinc-200">Good deeds</h3>
+    <div className="flex min-h-full w-full gap-6 p-4">
+      {/* Profile & gallery */}
+      <div className="flex min-h-0 flex-1 flex-col gap-6 overflow-hidden">
+        <div className="shrink-0 rounded-2xl border-2 border-[#bbf7d0] bg-white p-5 shadow-sm">
+          <h2 className="text-xl font-extrabold text-[#14532d]">Profile</h2>
+          <p className="mt-2 text-base font-bold text-[#166534]">
+            Full name: <span className="text-[#14532d]">{user.name || "—"}</span>
+          </p>
+          <p className="mt-1 text-base font-bold text-[#166534]">
+            Good deeds: <span className="text-[#14532d]">{videos.length}</span>
+          </p>
+        </div>
+
         {loading ? (
-          <p className="text-sm text-zinc-500">Loading…</p>
+          <div className="flex flex-1 items-center justify-center rounded-2xl border-2 border-dashed border-[#bbf7d0] bg-[#f0fdf4]/50">
+            <p className="text-sm font-semibold text-[#166534]">Loading your deeds…</p>
+          </div>
         ) : videos.length === 0 ? (
-          <p className="text-sm text-zinc-500">No good deeds yet. Upload a video in the chat to add one.</p>
+          <div className="flex flex-1 flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed border-[#bbf7d0] bg-[#f0fdf4]/50 p-8 text-center">
+            <p className="text-sm font-medium text-[#166534]">
+              No good deeds yet. Upload a video in the chat to add one.
+            </p>
+          </div>
         ) : (
-          <div
-            className="overflow-y-auto overflow-x-hidden snap-y snap-mandatory"
-            style={{ height: "70vh" }}
-          >
+          <div className="flex-1 overflow-y-auto overflow-x-hidden space-y-4 pr-2">
             {videos.map((entry) => (
               <div
                 key={entry.filename}
-                className="flex h-[70vh] w-full shrink-0 snap-start gap-0 overflow-hidden rounded-2xl border border-zinc-700 bg-zinc-900"
-                style={{ minHeight: "70vh" }}
+                className="flex flex-col sm:flex-row gap-4 rounded-2xl border-2 border-[#bbf7d0] bg-white p-4 shadow-sm"
               >
-                <div className="flex min-w-0 flex-1 items-center justify-center overflow-hidden bg-black">
+                <div className="relative aspect-video w-full sm:w-64 shrink-0 overflow-hidden rounded-xl bg-black">
                   <video
                     src={profileVideoUrl(entry.filename)}
                     controls
-                    className="max-h-full max-w-full rounded-l-2xl object-contain"
+                    className="h-full w-full object-contain"
                     preload="metadata"
                     playsInline
                   />
                 </div>
-                <div className="flex w-80 shrink-0 flex-col justify-center border-l border-zinc-700 bg-zinc-800/80 p-4">
-                  <p className="text-xs font-medium uppercase tracking-wider text-zinc-500">
+                <div className="flex flex-1 flex-col justify-center gap-2">
+                  <p className="text-xs font-bold uppercase tracking-wider text-[#166534]">
                     Response
                   </p>
-                  <p className="mt-2 text-sm text-zinc-200">
+                  <p className="text-sm font-medium text-[#14532d] leading-relaxed">
                     {entry.llm_response || "No description yet."}
-                    <span className="block mt-1 text-zinc-500">Score: {scoreToDisplayPoints(entry.score)}</span>
+                  </p>
+                  <p className="text-sm font-bold text-[#15803d]">
+                    Score: {scoreToDisplayPoints(entry.score)}
                   </p>
                 </div>
               </div>
@@ -117,57 +127,70 @@ export default function Profile({ user }: { user: User }) {
         )}
       </div>
 
-      <aside className="flex w-80 shrink-0 flex-col border-l border-zinc-800 bg-zinc-900/50">
-        <div className="border-b border-zinc-800 px-3 py-2">
-          <h3 className="text-sm font-medium text-zinc-200">Chat (videos)</h3>
+      {/* Chat – white background, blue bubbles */}
+      <aside className="flex w-[380px] shrink-0 flex-col overflow-hidden rounded-2xl border-2 border-[#bbf7d0] bg-white shadow-lg">
+        <div className="border-b-2 border-[#dcfce7] bg-[#f0fdf4]/60 px-4 py-3">
+          <h3 className="text-base font-bold text-[#14532d]">Chat (videos)</h3>
+          <p className="text-xs font-medium text-[#166534]/80">Share your good deeds with the community</p>
         </div>
-        <div className="min-h-0 flex-1 overflow-auto p-3">
+
+        <div className="min-h-0 flex-1 overflow-auto p-4 bg-white">
           {loading ? (
-            <p className="text-sm text-zinc-500">Loading…</p>
+            <p className="text-sm font-medium text-[#166534]">Loading…</p>
           ) : videos.length === 0 ? (
-            <p className="text-sm text-zinc-500">No videos yet. Drop one below.</p>
+            <div className="flex flex-col items-center justify-center py-8 text-center">
+              <p className="text-sm font-medium text-[#166534]">No videos yet.</p>
+              <p className="mt-1 text-sm text-[#166534]/80">Drop one below to get started.</p>
+            </div>
           ) : (
-            <ul className="space-y-3">
+            <ul className="space-y-4">
               {videos.map((entry) => (
                 <li key={entry.filename} className="space-y-2">
+                  {/* User video – blue outline / sent bubble */}
                   <div className="flex justify-end">
-                    <span className="max-w-[85%] rounded-2xl overflow-hidden bg-blue-600 p-1">
+                    <div className="max-w-[85%] overflow-hidden rounded-2xl rounded-tr-md border-2 border-blue-400 bg-blue-50 p-1 shadow-sm">
                       <video
                         src={profileVideoUrl(entry.filename)}
                         controls
                         className="max-h-40 w-full rounded-xl"
                         preload="metadata"
                       />
-                    </span>
+                    </div>
                   </div>
+                  {/* AI response – solid blue bubble, white text */}
                   <div className="flex justify-start">
-                    <span className="max-w-[85%] rounded-2xl bg-zinc-700 px-4 py-2 text-sm text-zinc-100">
-                      {entry.llm_response || "No description yet."}
-                      <span className="block mt-1 text-zinc-500">Score: {scoreToDisplayPoints(entry.score)}</span>
-                    </span>
+                    <div className="max-w-[85%] rounded-2xl rounded-tl-md bg-blue-500 px-4 py-3 text-sm text-white shadow-md">
+                      <p className="font-medium leading-relaxed">
+                        {entry.llm_response || "No description yet."}
+                      </p>
+                      <p className="mt-2 text-xs font-bold opacity-90">
+                        Score: {scoreToDisplayPoints(entry.score)}
+                      </p>
+                    </div>
                   </div>
                 </li>
               ))}
             </ul>
           )}
         </div>
-        <div className="shrink-0 border-t border-zinc-800 p-2">
+
+        <div className="shrink-0 border-t-2 border-[#dcfce7] bg-[#f0fdf4]/40 p-4">
           {error && (
-            <p className="mb-2 text-sm text-red-400" role="alert">
+            <div className="mb-3 rounded-xl bg-red-50 px-3 py-2 text-sm font-medium text-red-600 border border-red-100">
               {error}
-            </p>
+            </div>
           )}
           <div
             onDrop={onDrop}
             onDragOver={onDragOver}
             onDragLeave={onDragLeave}
-            className={`rounded-lg border-2 border-dashed p-4 text-center transition-colors ${
+            className={`rounded-xl border-2 border-dashed p-4 text-center transition-colors ${
               dragOver
-                ? "border-blue-500 bg-blue-500/10"
-                : "border-zinc-600 bg-zinc-800/50"
+                ? "border-[#15803d] bg-[#dcfce7]"
+                : "border-[#bbf7d0] bg-white hover:bg-[#f0fdf4]/60"
             }`}
           >
-            <p className="mb-2 text-sm text-zinc-400">
+            <p className="mb-2 text-sm font-medium text-[#166534]">
               Drop a video here or click to choose
             </p>
             <input
@@ -180,7 +203,7 @@ export default function Profile({ user }: { user: User }) {
             />
             <label
               htmlFor="profile-video-input"
-              className="cursor-pointer rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
+              className="inline-block cursor-pointer rounded-xl bg-[#15803d] px-5 py-2.5 text-sm font-bold text-white shadow-md hover:bg-[#166534] disabled:opacity-60"
             >
               {uploading ? "Uploading…" : "Send video"}
             </label>
