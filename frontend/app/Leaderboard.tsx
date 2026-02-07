@@ -78,7 +78,7 @@ export default function Leaderboard({ user, community, onBack }: Props) {
                 style={index < 10 ? { animationDelay: `${(index + 1) * 50}ms` } : undefined}
                 className={`flex items-center gap-4 rounded-2xl border-2 p-4 md:p-5 cursor-pointer animate-fade-in transition-all duration-200 active:scale-[0.99] ${
                   entry.isMe
-                    ? "border-[#15803d] bg-[#dcfce7] shadow-md shadow-[#15803d]/10"
+                    ? "border-[#15803d] bg-white shadow-md shadow-[#15803d]/10"
                     : "border-[#bbf7d0] bg-white hover:border-[#22c55e] hover:shadow-md"
                 }`}
               >

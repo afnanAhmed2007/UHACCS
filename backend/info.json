@@ -1,0 +1,33 @@
+{
+  "users": [
+    {
+      "name": "Afnan Ahmed",
+      "zip": "07045",
+      "videos": [
+        {
+          "filename": "69a48109f8ff4255a042f6f6c1a7f4bf.MOV",
+          "llm_response": "The user picked up discarded paper towels from the floor and placed them in a recycling bin. This action promotes cleanliness and supports sustainable waste management through recycling.",
+          "score": 1
+        }
+      ]
+    },
+    {
+      "name": "mihir",
+      "zip": "07045",
+      "videos": [
+        {
+          "filename": "ab40010ce68f4e7eb2b52d98370a28b7.MOV",
+          "llm_response": "The user uses public transportation instead of driving and avoids using plastic. He also actively works to save animals and turtles while avoiding any activities that are harmful to nature.",
+          "score": 0
+        }
+      ]
+    }
+  ],
+  "communities": [
+    {
+      "id": "181912b2-b513-463c-931c-db02a25a920f",
+      "name": "Rutgers",
+      "zip": "07045"
+    }
+  ]
+}
