@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import type { User } from "@/lib/api";
 import type { Community } from "@/lib/api";
 import type { LeaderboardEntry as ApiEntry } from "@/lib/api";
-import { getLeaderboard, profileVideoUrl } from "@/lib/api";
+import { getLeaderboard, profileVideoUrl, scoreToDisplayPoints } from "@/lib/api";
 
 type LeaderboardEntry = ApiEntry & { isMe?: boolean };
 
@@ -123,24 +123,18 @@ export default function Leaderboard({ user, community, onBack }: Props) {
             className="absolute inset-0"
           />
           <div className="relative w-full max-w-lg rounded-[2rem] overflow-hidden border-2 border-[#bbf7d0] bg-white shadow-2xl">
-            <div className="w-full aspect-video bg-black flex items-center justify-center relative overflow-hidden">
+            <div className="w-full aspect-video bg-black flex items-center justify-center overflow-hidden">
               {selectedUser.latestVideoFilename ? (
-                <>
-                  <video
-                    src={profileVideoUrl(selectedUser.latestVideoFilename)}
-                    controls
-                    className="w-full h-full object-contain"
-                    preload="metadata"
-                    playsInline
-                  />
-                  <div className="absolute top-3 right-3 rounded-lg bg-[#15803d] text-white text-[10px] font-bold px-2 py-1.5">
-                    AI VERIFIED
-                  </div>
-                </>
+                <video
+                  src={profileVideoUrl(selectedUser.latestVideoFilename)}
+                  controls
+                  className="w-full h-full object-contain"
+                  preload="metadata"
+                  playsInline
+                />
               ) : (
                 <div className="flex flex-col items-center justify-center gap-2 text-[#166534]">
                   <span className="text-lg font-bold">No video yet</span>
-                  <span className="text-[10px] font-bold px-2 py-1 rounded bg-[#15803d] text-white">AI VERIFIED</span>
                 </div>
               )}
             </div>
@@ -148,8 +142,8 @@ export default function Leaderboard({ user, community, onBack }: Props) {
               <div className="flex justify-between items-start">
                 <div>
                   <h2 className="text-2xl font-extrabold text-[#14532d]">{selectedUser.name}</h2>
-                  <p className="text-sm font-bold text-[#166534]">
-                    {selectedUser.deedCount} verified deed{selectedUser.deedCount !== 1 ? "s" : ""}
+                  <p className="text-sm font-bold text-[#166534] mt-1">
+                    Score: {scoreToDisplayPoints(selectedUser.latestVideoScore ?? 0)}
                   </p>
                 </div>
                 <button
@@ -161,10 +155,9 @@ export default function Leaderboard({ user, community, onBack }: Props) {
                 </button>
               </div>
               <div className="rounded-xl border-2 border-[#dcfce7] bg-[#f0fdf4]/60 p-4">
+                <p className="text-xs font-bold uppercase tracking-wider text-[#166534] mb-2">Description</p>
                 <p className="text-sm font-medium text-[#14532d] leading-relaxed">
-                  {selectedUser.deedCount === 0
-                    ? "No verified deeds yet. Upload videos from your profile to add deeds and points."
-                    : `${selectedUser.deedCount} verified deed(s) from uploaded videos.`}
+                  {selectedUser.latestVideoLlmResponse || "No description yet."}
                 </p>
               </div>
             </div>

@@ -110,6 +110,8 @@ export type LeaderboardEntry = {
   deedCount: number;
   points: number;
   latestVideoFilename?: string | null;
+  latestVideoLlmResponse?: string;
+  latestVideoScore?: number;
 };
 
 /** Leaderboard for a zip (points recalculated every request from current video ranks). */
@@ -128,6 +130,8 @@ export async function getLeaderboard(zipCode: string): Promise<LeaderboardEntry[
     deedCount: typeof e.deedCount === "number" ? e.deedCount : (e.deed_count as number) ?? 0,
     points: typeof e.points === "number" ? e.points : 0,
     latestVideoFilename: (e.latestVideoFilename ?? e.latest_video_filename ?? null) as string | null | undefined,
+    latestVideoLlmResponse: typeof e.latestVideoLlmResponse === "string" ? e.latestVideoLlmResponse : "",
+    latestVideoScore: typeof e.latestVideoScore === "number" ? e.latestVideoScore : 0,
   }));
 }
 

@@ -346,6 +346,22 @@ def _best_video_filename(videos):
     return best.get("filename") or None
 
 
+def _best_video_llm_response_and_score(videos):
+    """Get (llm_response, score) of the highest-ranking video (lowest score = best rank)."""
+    if not isinstance(videos, list) or not videos:
+        return ("", 0)
+    best = min(
+        videos,
+        key=lambda v: v.get("score", 0) if isinstance(v, dict) else 0,
+    )
+    if isinstance(best, str):
+        return ("", 0)
+    return (
+        (best.get("llm_response") or "").strip(),
+        best.get("score", 0),
+    )
+
+
 @app.get("/api/leaderboard")
 def get_leaderboard(zip_code: str = Query("", alias="zip")):
     """Leaderboard for a zip: users in that zip. Points = sum of 1000*(1/2^score); includes best video per user."""
@@ -359,12 +375,15 @@ def get_leaderboard(zip_code: str = Query("", alias="zip")):
         count = len(videos)
         points = _video_points(videos)
         best_video = _best_video_filename(videos)  # highest-ranking (lowest score) video
+        best_llm, best_score = _best_video_llm_response_and_score(videos)
         entries.append({
             "id": f"{u.get('name', '')}_{u.get('zip', '')}",
             "name": u.get("name", ""),
             "deedCount": count,
             "points": points,
             "latestVideoFilename": best_video,  # API key unchanged; value is now best video
+            "latestVideoLlmResponse": best_llm,
+            "latestVideoScore": best_score,
         })
     entries.sort(key=lambda x: x["points"], reverse=True)  # higher points = better
     return JSONResponse(

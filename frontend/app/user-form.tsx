@@ -131,7 +131,7 @@ export default function UserForm({
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="e.g. Jane Smith"
+                placeholder="e.g. Brayden Uglione"
                 className="w-full rounded-xl border-2 border-[#bbf7d0] bg-[#f0fdf4]/50 px-4 py-3 text-[#14532d] placeholder-[#166534]/50 focus:border-[#22c55e] focus:outline-none focus:ring-2 focus:ring-[#22c55e]/30"
                 autoComplete="name"
               />

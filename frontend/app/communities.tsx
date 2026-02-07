@@ -209,8 +209,20 @@ export default function CommunitiesView({ user }: { user: User }) {
                     onClick={() => setSelectedCommunity(c)}
                     className="flex w-full flex-col items-start gap-2 rounded-2xl border-2 border-[#bbf7d0] bg-white p-5 text-left shadow-md transition hover:border-[#22c55e] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:ring-offset-2"
                   >
-                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#dcfce7] text-2xl">
-                      🌱
+                    <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-[#dcfce7] p-1.5" aria-hidden>
+                      <svg viewBox="0 0 48 48" className="h-full w-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        {/* Connecting ring */}
+                        <path d="M 6 20 Q 24 8 42 20" stroke="#3b82f6" strokeWidth="2" fill="none" strokeLinecap="round" />
+                        {/* Left figure (orange) */}
+                        <circle cx="14" cy="14" r="5" fill="#f59e0b" />
+                        <ellipse cx="14" cy="30" rx="6" ry="10" fill="#f59e0b" />
+                        {/* Center figure (red) */}
+                        <circle cx="24" cy="14" r="5" fill="#ef4444" />
+                        <ellipse cx="24" cy="30" rx="6" ry="10" fill="#ef4444" />
+                        {/* Right figure (purple) */}
+                        <circle cx="34" cy="14" r="5" fill="#8b5cf6" />
+                        <ellipse cx="34" cy="30" rx="6" ry="10" fill="#8b5cf6" />
+                      </svg>
                     </div>
                     <div>
                       <span className="block text-lg font-bold text-[#14532d]">{c.name}</span>
@@ -218,9 +230,6 @@ export default function CommunitiesView({ user }: { user: User }) {
                         {c.zip}
                       </span>
                     </div>
-                    <span className="text-sm font-medium text-[#166534]/80">
-                      Tap to open
-                    </span>
                   </button>
                 </li>
               ))}
