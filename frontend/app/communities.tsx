@@ -81,13 +81,13 @@ export default function CommunitiesView({ user }: { user: User }) {
       { id: "videos" as const, label: "Videos", icon: "🎬" },
     ];
     return (
-      <div className="fixed inset-0 z-20 flex min-h-screen flex-col bg-gradient-to-br from-[#f0fdf4] via-[#dcfce7] to-[#bbf7d0]">
+      <div className="fixed inset-0 z-20 flex min-h-screen flex-col bg-gradient-to-br from-[#f0fdf4] via-[#dcfce7] to-[#bbf7d0] animate-fade-in">
         <header className="flex shrink-0 flex-col gap-4 border-b-2 border-[#bbf7d0] bg-white/90 px-4 py-3 shadow-sm backdrop-blur-sm">
           <div className="flex items-center justify-between">
             <button
               type="button"
               onClick={() => setSelectedCommunity(null)}
-              className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-bold text-[#166534] transition hover:bg-[#dcfce7]"
+              className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-bold text-[#166534] transition-colors duration-200 hover:bg-[#dcfce7]"
             >
               ← Back
             </button>
@@ -105,7 +105,7 @@ export default function CommunitiesView({ user }: { user: User }) {
                 role="tab"
                 aria-selected={communityTab === id}
                 onClick={() => setCommunityTab(id)}
-                className={`flex flex-1 items-center justify-center gap-1.5 rounded-xl py-3 text-center text-sm font-bold transition-all ${
+                className={`flex flex-1 items-center justify-center gap-1.5 rounded-xl py-3 text-center text-sm font-bold transition-all duration-200 ${
                   communityTab === id
                     ? "bg-[#15803d] text-white shadow-md"
                     : "text-[#166534] hover:bg-[#dcfce7]"
@@ -147,7 +147,7 @@ export default function CommunitiesView({ user }: { user: User }) {
             <button
               type="button"
               onClick={handleSignOut}
-              className="rounded-xl px-3 py-1.5 text-sm font-bold text-[#166534] hover:bg-[#dcfce7]"
+              className="rounded-xl px-3 py-1.5 text-sm font-bold text-[#166534] transition-colors duration-200 hover:bg-[#dcfce7]"
             >
               Sign out
             </button>
@@ -161,7 +161,7 @@ export default function CommunitiesView({ user }: { user: User }) {
             Your communities
           </h2>
           <p className="mt-2 text-[#166534]">
-            Together we grow — join or create a space to share kind deeds and care for our planet.
+            Together we grow. Join or create a space to share kind deeds and care for our planet.
           </p>
           <p className="mt-1 text-sm font-medium text-[#166534]/80">
             Inclusive · Local · Green
@@ -182,7 +182,7 @@ export default function CommunitiesView({ user }: { user: User }) {
             <button
               type="button"
               onClick={() => setShowAdd(true)}
-              className="rounded-xl bg-[#15803d] px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-[#15803d]/25 hover:bg-[#166534] focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:ring-offset-2"
+              className="rounded-xl bg-[#15803d] px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-[#15803d]/25 transition-colors duration-200 hover:bg-[#166534] focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:ring-offset-2"
             >
               Create your first community
             </button>
@@ -196,18 +196,18 @@ export default function CommunitiesView({ user }: { user: User }) {
               <button
                 type="button"
                 onClick={() => setShowAdd(true)}
-                className="rounded-xl border-2 border-[#15803d] bg-white px-4 py-2.5 text-sm font-bold text-[#15803d] hover:bg-[#15803d] hover:text-white focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:ring-offset-2"
+                className="rounded-xl border-2 border-[#15803d] bg-white px-4 py-2.5 text-sm font-bold text-[#15803d] transition-colors duration-200 hover:bg-[#15803d] hover:text-white focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:ring-offset-2"
               >
                 + Add community
               </button>
             </div>
             <ul className="grid gap-4 sm:grid-cols-2">
-              {communities.map((c) => (
-                <li key={c.id}>
+              {communities.map((c, i) => (
+                <li key={c.id} className="animate-fade-in" style={i < 10 ? { animationDelay: `${(i + 1) * 50}ms` } : undefined}>
                   <button
                     type="button"
                     onClick={() => setSelectedCommunity(c)}
-                    className="flex w-full flex-col items-start gap-2 rounded-2xl border-2 border-[#bbf7d0] bg-white p-5 text-left shadow-md transition hover:border-[#22c55e] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:ring-offset-2"
+                    className="flex w-full flex-col items-start gap-2 rounded-2xl border-2 border-[#bbf7d0] bg-white p-5 text-left shadow-md transition-all duration-200 hover:border-[#22c55e] hover:shadow-lg hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:ring-offset-2"
                   >
                     <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-[#dcfce7] p-1.5" aria-hidden>
                       <svg viewBox="0 0 48 48" className="h-full w-full" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -240,12 +240,12 @@ export default function CommunitiesView({ user }: { user: User }) {
 
       {showAdd && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-[#14532d]/30 p-4 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-[#14532d]/30 p-4 backdrop-blur-sm animate-backdrop-fade"
           role="dialog"
           aria-modal="true"
           aria-labelledby="add-community-title"
         >
-          <div className="w-full max-w-sm rounded-3xl border-2 border-[#bbf7d0] bg-white p-6 shadow-2xl">
+          <div className="w-full max-w-sm rounded-3xl border-2 border-[#bbf7d0] bg-white p-6 shadow-2xl animate-scale-in">
             <div className="mb-4 flex items-center gap-2">
               <span className="text-2xl" aria-hidden>🌍</span>
               <h2 id="add-community-title" className="text-xl font-extrabold text-[#14532d]">
@@ -303,14 +303,14 @@ export default function CommunitiesView({ user }: { user: User }) {
                     setShowAdd(false);
                     setAddError("");
                   }}
-                  className="flex-1 rounded-xl border-2 border-[#bbf7d0] bg-white px-4 py-3 text-sm font-bold text-[#166534] hover:bg-[#dcfce7]"
+                  className="flex-1 rounded-xl border-2 border-[#bbf7d0] bg-white px-4 py-3 text-sm font-bold text-[#166534] transition-colors duration-200 hover:bg-[#dcfce7]"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={adding}
-                  className="flex-1 rounded-xl bg-[#15803d] px-4 py-3 text-sm font-bold text-white shadow-lg shadow-[#15803d]/25 hover:bg-[#166534] disabled:opacity-60"
+                  className="flex-1 rounded-xl bg-[#15803d] px-4 py-3 text-sm font-bold text-white shadow-lg shadow-[#15803d]/25 transition-colors duration-200 hover:bg-[#166534] disabled:opacity-60"
                 >
                   {adding ? (
                     <span className="flex items-center justify-center gap-2">

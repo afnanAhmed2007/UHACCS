@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import type { User } from "@/lib/api";
 import type { Community } from "@/lib/api";
 import type { LeaderboardEntry as ApiEntry } from "@/lib/api";
-import { getLeaderboard, profileVideoUrl, scoreToDisplayPoints } from "@/lib/api";
+import { getLeaderboard, profileVideoUrl } from "@/lib/api";
 
 type LeaderboardEntry = ApiEntry & { isMe?: boolean };
 
@@ -46,7 +46,7 @@ export default function Leaderboard({ user, community, onBack }: Props) {
   }, [fetchLeaderboard]);
 
   return (
-    <div className="flex min-h-full min-w-0 flex-col items-center justify-start bg-gradient-to-br from-[#f0fdf4] via-[#dcfce7] to-[#bbf7d0] px-4 py-8 md:py-12">
+    <div className="flex min-h-full min-w-0 flex-col items-center justify-start bg-gradient-to-br from-[#f0fdf4] via-[#dcfce7] to-[#bbf7d0] px-4 py-8 md:py-12 animate-fade-in">
       <div className="w-full max-w-2xl space-y-8">
         <div className="text-center space-y-2">
           <h1 className="text-3xl md:text-4xl font-extrabold text-[#14532d]">
@@ -75,7 +75,8 @@ export default function Leaderboard({ user, community, onBack }: Props) {
                 tabIndex={0}
                 onClick={() => setSelectedUser(entry)}
                 onKeyDown={(e) => e.key === "Enter" && setSelectedUser(entry)}
-                className={`flex items-center gap-4 rounded-2xl border-2 p-4 md:p-5 cursor-pointer transition-all active:scale-[0.99] ${
+                style={index < 10 ? { animationDelay: `${(index + 1) * 50}ms` } : undefined}
+                className={`flex items-center gap-4 rounded-2xl border-2 p-4 md:p-5 cursor-pointer animate-fade-in transition-all duration-200 active:scale-[0.99] ${
                   entry.isMe
                     ? "border-[#15803d] bg-[#dcfce7] shadow-md shadow-[#15803d]/10"
                     : "border-[#bbf7d0] bg-white hover:border-[#22c55e] hover:shadow-md"
@@ -107,7 +108,7 @@ export default function Leaderboard({ user, community, onBack }: Props) {
         <button
           type="button"
           onClick={onBack}
-          className="w-full rounded-2xl border-2 border-[#15803d] bg-white px-6 py-4 text-[#15803d] font-bold hover:bg-[#15803d] hover:text-white focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:ring-offset-2"
+          className="w-full rounded-2xl border-2 border-[#15803d] bg-white px-6 py-4 text-[#15803d] font-bold transition-colors duration-200 hover:bg-[#15803d] hover:text-white focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:ring-offset-2"
         >
           ← Back to Community
         </button>
@@ -115,14 +116,14 @@ export default function Leaderboard({ user, community, onBack }: Props) {
 
       {/* Detail modal */}
       {selectedUser && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#14532d]/20 backdrop-blur-sm">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#14532d]/20 backdrop-blur-sm animate-backdrop-fade">
           <button
             type="button"
             aria-label="Close"
             onClick={() => setSelectedUser(null)}
             className="absolute inset-0"
           />
-          <div className="relative w-full max-w-lg rounded-[2rem] overflow-hidden border-2 border-[#bbf7d0] bg-white shadow-2xl">
+          <div className="relative w-full max-w-lg rounded-[2rem] overflow-hidden border-2 border-[#bbf7d0] bg-white shadow-2xl animate-scale-in">
             <div className="w-full aspect-video bg-black flex items-center justify-center overflow-hidden">
               {selectedUser.latestVideoFilename ? (
                 <video
@@ -142,9 +143,6 @@ export default function Leaderboard({ user, community, onBack }: Props) {
               <div className="flex justify-between items-start">
                 <div>
                   <h2 className="text-2xl font-extrabold text-[#14532d]">{selectedUser.name}</h2>
-                  <p className="text-sm font-bold text-[#166534] mt-1">
-                    Score: {scoreToDisplayPoints(selectedUser.latestVideoScore ?? 0)}
-                  </p>
                 </div>
                 <button
                   type="button"
@@ -155,7 +153,7 @@ export default function Leaderboard({ user, community, onBack }: Props) {
                 </button>
               </div>
               <div className="rounded-xl border-2 border-[#dcfce7] bg-[#f0fdf4]/60 p-4">
-                <p className="text-xs font-bold uppercase tracking-wider text-[#166534] mb-2">Description</p>
+                <p className="text-xs font-bold uppercase tracking-wider text-[#166534] mb-2">Impact</p>
                 <p className="text-sm font-medium text-[#14532d] leading-relaxed">
                   {selectedUser.latestVideoLlmResponse || "No description yet."}
                 </p>

@@ -33,5 +33,9 @@ export default function Home() {
     return <UserForm onSuccess={handleSuccess} />;
   }
 
-  return <CommunitiesView user={user} />;
+  return (
+    <div className="animate-fade-in">
+      <CommunitiesView user={user} />
+    </div>
+  );
 }

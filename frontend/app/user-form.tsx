@@ -97,7 +97,7 @@ export default function UserForm({
             <button
               type="button"
               onClick={() => switchMode("create")}
-              className={`flex-1 rounded-xl py-3 text-sm font-bold transition-all ${
+              className={`flex-1 rounded-xl py-3 text-sm font-bold transition-all duration-200 ${
                 mode === "create"
                   ? "bg-[#15803d] text-white shadow-md"
                   : "text-[#166534] hover:bg-[#dcfce7]"
@@ -108,7 +108,7 @@ export default function UserForm({
             <button
               type="button"
               onClick={() => switchMode("signin")}
-              className={`flex-1 rounded-xl py-3 text-sm font-bold transition-all ${
+              className={`flex-1 rounded-xl py-3 text-sm font-bold transition-all duration-200 ${
                 mode === "signin"
                   ? "bg-[#15803d] text-white shadow-md"
                   : "text-[#166534] hover:bg-[#dcfce7]"
@@ -164,7 +164,7 @@ export default function UserForm({
             <button
               type="submit"
               disabled={loading}
-              className="mt-1 rounded-xl bg-[#15803d] px-4 py-3.5 text-sm font-bold text-white shadow-lg shadow-[#15803d]/25 transition hover:bg-[#166534] focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:ring-offset-2 disabled:opacity-60"
+              className="mt-1 rounded-xl bg-[#15803d] px-4 py-3.5 text-sm font-bold text-white shadow-lg shadow-[#15803d]/25 transition-colors duration-200 hover:bg-[#166534] focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:ring-offset-2 disabled:opacity-60"
             >
               {loading ? (
                 <span className="flex items-center justify-center gap-2">

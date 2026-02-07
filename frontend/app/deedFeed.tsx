@@ -56,12 +56,15 @@ export default function DeedFeed({ community }: Props) {
 
   return (
     <div className="h-full w-full overflow-y-auto snap-y snap-mandatory scroll-smooth bg-gradient-to-br from-[#f0fdf4] via-[#dcfce7] to-[#bbf7d0] p-4">
-      {videos.map((post) => (
+      {videos.map((post, i) => (
         <section
           key={`${post.userName}-${post.filename}`}
           className="h-full min-h-[80vh] w-full snap-start flex items-center justify-center py-4 md:py-6"
         >
-          <div className="flex flex-col h-full max-h-[90vh] w-full max-w-[1000px] overflow-hidden rounded-[2rem] border-2 border-[#bbf7d0] bg-white shadow-xl shadow-[#15803d]/10">
+          <div
+            className="flex flex-col h-full max-h-[90vh] w-full max-w-[1000px] overflow-hidden rounded-[2rem] border-2 border-[#bbf7d0] bg-white shadow-xl shadow-[#15803d]/10 animate-fade-in transition-shadow duration-200"
+            style={i < 10 ? { animationDelay: `${(i + 1) * 60}ms` } : undefined}
+          >
             <div className="relative flex-1 min-h-0 flex items-center justify-center bg-black rounded-t-[1.5rem] overflow-hidden">
               <video
                 src={profileVideoUrl(post.filename)}
@@ -86,7 +89,7 @@ export default function DeedFeed({ community }: Props) {
                   </h3>
                   <div className="flex items-center gap-2 mt-0.5 flex-wrap">
                     <span className="text-sm font-medium text-[#166534]">📍 {community.name}</span>
-                    <span className="text-sm font-bold text-[#15803d]">Score: {scoreToDisplayPoints(post.score)}</span>
+                    <span className="text-sm font-bold text-[#15803d]">Impact Score: {scoreToDisplayPoints(post.score)}</span>
                   </div>
                 </div>
               </div>
