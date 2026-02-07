@@ -1,0 +1,56 @@
+{
+    "goal": "Lose Weight",
+    "status": "unlocked",
+    "subgoals": [
+        {
+            "goal": "Diet",
+            "status": "locked",
+            "subgoals": [
+                {
+                    "goal": "Track Calories",
+                    "status": "locked"
+                },
+                {
+                    "goal": "Eat More Protein",
+                    "status": "locked"
+                },
+                {
+                    "goal": "Reduce Sugar",
+                    "status": "locked"
+                }
+            ]
+        },
+        {
+            "goal": "Cardio",
+            "status": "locked",
+            "subgoals": [
+                {
+                    "goal": "Run 3x/Week",
+                    "status": "locked"
+                },
+                {
+                    "goal": "Cycling 2x/Week",
+                    "status": "locked"
+                }
+            ]
+        },
+        {
+            "goal": "Weight-Lifting",
+            "status": "locked",
+            "subgoals": [
+                {
+                    "goal": "Upper Body",
+                    "status": "locked"
+                },
+                {
+                    "goal": "Lower Body",
+                    "status": "locked"
+                },
+                {
+                    "goal": "Core",
+                    "status": "locked"
+                }
+            ]
+        }
+    ]
+}
